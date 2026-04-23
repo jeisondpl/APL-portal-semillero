@@ -1,0 +1,21 @@
+import { NextResponse } from 'next/server'
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
+  const body = await request.json() as { userId: string }
+
+  if (!body.userId) {
+    return NextResponse.json({ error: 'userId es requerido' }, { status: 400 })
+  }
+
+  return NextResponse.json({
+    data: {
+      success: true,
+      completedAt: new Date().toISOString(),
+      nextLessonId: undefined,
+    },
+  })
+}

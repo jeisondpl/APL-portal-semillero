@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: semilleros_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: semilleros
+      POSTGRES_PASSWORD: semilleros2026
+      POSTGRES_DB: semilleros_portal
+    ports:
+      - "5433:5432"
+    volumes:
+      - semilleros_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U semilleros -d semilleros_portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  semilleros_pgdata:
